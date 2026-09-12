@@ -9,3 +9,10 @@ class Settings:
 
         #Speed and acceleration
         self.ship_speed_factor: float = 3
+
+        #bullet char
+        self.bullet_speed_factor = 5
+        self.bullet_width = 3
+        self.bullet_height = 15
+        self.bullet_color = 60,60,60
+                
