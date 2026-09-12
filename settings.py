@@ -8,4 +8,4 @@ class Settings:
         self.bg_color = (24, 30, 76)
 
         #Speed and acceleration
-        self.ship_speed_factor: float = 1.5
+        self.ship_speed_factor: float = 3
