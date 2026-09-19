@@ -1,25 +1,28 @@
 import sys
 
 import pygame
+from pygame.time import Clock
 
-#Import pre-defined settings.
+#Import pre-defined settings and functions.
 from settings import Settings
 
-#import user-controlled ship module.
+#import user-controlled ship module and alien module.
 from ship import Ship
+from aliens import Alien
 
 #Import bullet module
 from bullet import Bullet
 
+exit_msg = 'Exited the game, thanks for playing!'
 
-def fire_bullet(ai_settings, screen, ship, bullets):
+def fire_bullet(ai_settings: Settings, screen, ship: Ship, bullets: pygame.sprite.Group) -> None:
     """"Create a bullet if the limit is not reached yet."""
     if len(bullets) < ai_settings.max_bullets:
         new_bullet = Bullet(ai_settings,screen,ship)
         bullets.add(new_bullet)
 
 
-def check_key_down_events(ai_settings, screen, event, ship, bullets):
+def check_key_down_events(ai_settings: Settings, screen,event , ship: Ship, bullets: pygame.sprite.Group) -> None:
     """Listen for key presses."""
     if event.key == pygame.K_SPACE:
         fire_bullet(ai_settings, screen, ship, bullets)
@@ -27,10 +30,12 @@ def check_key_down_events(ai_settings, screen, event, ship, bullets):
         ship.moving_right = True
     elif event.key == pygame.K_LEFT:
         ship.moving_left = True
+    elif event.key == pygame.K_q:
+        print(exit_msg)
+        sys.exit()
 
 
-
-def check_key_up_events(event, ship):
+def check_key_up_events(event, ship: Ship) -> None:
     """Listen for key releases."""
     if event.key == pygame.K_RIGHT:
         ship.moving_right = False
@@ -46,7 +51,7 @@ def check_events(
     """Respond to keyboard and mouse events."""
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            print('Exited game, thanks for playing')
+            print(exit_msg)
             sys.exit()
 
         elif event.type == pygame.KEYDOWN:
@@ -61,12 +66,14 @@ def update_screen(
     ai_settings: Settings,
     screen: pygame.Surface,
     ship: Ship,
+    alien: Alien,
     bullets:pygame.sprite.Group
 ) -> None:
-    
     """Update images on the screen and flip to the new screen."""
+    Clock().tick(144)
     screen.fill(ai_settings.bg_color)
     ship.blitme()
+    alien.blitme()
 
     #Redraw bullets
     for bullet in bullets.sprites():
@@ -74,8 +81,7 @@ def update_screen(
 
     pygame.display.flip()
 
-
-def update_bullets(bullets: pygame.sprite.Group):
+def update_bullets(bullets: pygame.sprite.Group) -> None:
     """Removes bullets once they are off-screen. """
     bullets.update()
     #Remove bullets

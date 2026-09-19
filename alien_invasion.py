@@ -1,16 +1,18 @@
+## Import pygame modules
 import pygame
+from pygame.sprite import Group
 
-#Import pre-defined settings.
+
+#Import pre-defined settings and functions.
 from settings import Settings
-
-#import user-controlled ship module.
-from ship import Ship
-
-#Import game_functions module.
 import game_functions as gf
 
-#Import group module
-from pygame.sprite import Group
+
+#import user-controlled ship module and alien module.
+from ship import Ship
+from aliens import Alien
+
+
 
 def run_game():
     """Initialize game and create a screen object."""
@@ -25,6 +27,10 @@ def run_game():
     #Initialize user ship
     ship = Ship(ai_settings, screen)
 
+    #Initialize aliens
+    alien = Alien(ai_settings, screen)
+
+
     #Make a group to store bullets
     bullets: pygame.sprite.Group = Group()
     """Main loop for the game"""
@@ -32,7 +38,7 @@ def run_game():
         gf.check_events(ai_settings, screen, ship, bullets)
         ship.update()
         gf.update_bullets(bullets)
-        gf.update_screen(ai_settings, screen, ship, bullets)
+        gf.update_screen(ai_settings, screen, ship, alien, bullets)
 
     
 
