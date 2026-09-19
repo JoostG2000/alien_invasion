@@ -32,7 +32,7 @@ class Ship:
         if new_speed is not None:
             self.ai_settings.ship_speed_factor = new_speed
 
-    def increment_speed(self, increment: (float | None)) -> None:
+    def increment_speed(self, increment: float | None) -> None:
         """Increments the speed of the ship measured by the given increment"""
         if increment is not None:
             self.ai_settings.ship_speed_factor += increment
@@ -45,4 +45,4 @@ class Ship:
             self.center -= self.ai_settings.ship_speed_factor
 
         # Update rect object from self.center.
-        self.rect.centerx = self.center
+        self.rect.centerx = int(self.center)
