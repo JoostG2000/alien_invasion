@@ -8,7 +8,6 @@ from settings import Settings
 
 #import user-controlled ship module and alien module.
 from ship import Ship
-from aliens import Alien
 
 #Import bullet module
 from bullet import Bullet
@@ -33,7 +32,6 @@ def check_key_down_events(ai_settings: Settings, screen,event , ship: Ship, bull
     elif event.key == pygame.K_q:
         print(exit_msg)
         sys.exit()
-
 
 def check_key_up_events(event, ship: Ship) -> None:
     """Listen for key releases."""
@@ -60,20 +58,17 @@ def check_events(
         elif event.type == pygame.KEYUP:
             check_key_up_events(event, ship)
            
-
-
 def update_screen(
     ai_settings: Settings,
     screen: pygame.Surface,
     ship: Ship,
-    alien: Alien,
+    aliens: pygame.sprite.Group,
     bullets:pygame.sprite.Group
 ) -> None:
     """Update images on the screen and flip to the new screen."""
     Clock().tick(144)
     screen.fill(ai_settings.bg_color)
     ship.blitme()
-    alien.blitme()
 
     #Redraw bullets
     for bullet in bullets.sprites():
@@ -88,3 +83,6 @@ def update_bullets(bullets: pygame.sprite.Group) -> None:
     for bullet in bullets.copy():
         if bullet.rect.bottom <= 0:
             bullets.remove(bullet)
+
+def create_fleet(ai_settings, screen, aliens):
+    
